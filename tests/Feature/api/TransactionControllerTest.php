@@ -4,6 +4,8 @@ namespace Tests\Feature\api;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\api\Transaction;
+
 use Tests\TestCase;
 
 
@@ -38,5 +40,18 @@ class TransactionControllerTest extends TestCase
         ]);
         $response->assertStatus(422)
             ->assertJsonValidationErrorFor("mount");
+    }
+
+    public function test_show()
+    {
+        $this->withoutExceptionHandling();
+
+        $transaction = Transaction::factory()->create();
+
+        $response = $this->json("GET", "/api/transactions/$transaction->id");
+
+        $response->assertJsonStructure(["id", "mount", "isEgress", "created_at", "updated_at"])
+            ->assertJson(["id" => $transaction->id])
+            ->assertStatus(200);
     }
 }
