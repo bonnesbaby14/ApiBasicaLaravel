@@ -16,15 +16,17 @@ class TransactionControllerTest extends TestCase
      */
     public function test_store()
     {
+        $this->withoutExceptionHandling();
         $response = $this->json("POST", "/api/transactions", [
             "mount" => 123.6,
+            "isEgress"=>true,
         ]);
 
 
-        $response->assertJsonStructure(["id", "mount", "created_at", "updated_at"])
-            ->asserJson(["mount" => 123.6])
-            ->asserStatus(201);
+        $response->assertJsonStructure(["id", "mount","isEgress", "created_at", "updated_at"])
+            ->assertJson(["mount" => 123.6])
+            ->assertStatus(201);
 
-        $this->assertDatabaseHas("transations", ["mount" => 123.6]);
+        $this->assertDatabaseHas("transactions", ["mount" => 123.6]);
     }
 }

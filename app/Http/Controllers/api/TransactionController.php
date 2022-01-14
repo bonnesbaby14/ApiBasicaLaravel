@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Models\api\Transaction;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
@@ -25,7 +26,8 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $transaction=Transaction::create($request->all());
+        return response()->json($transaction,201);
     }
 
     /**
