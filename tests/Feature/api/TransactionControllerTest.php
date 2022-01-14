@@ -8,15 +8,23 @@ use Tests\TestCase;
 
 class TransactionControllerTest extends TestCase
 {
+    use RefreshDatabase;
     /**
-     * A basic feature test example.
+     * A basic test example.
      *
      * @return void
      */
-    public function test_example()
+    public function test_store()
     {
-        $response = $this->get('/');
+        $response = $this->json("POST", "/api/transactions", [
+            "mount" => 123.6,
+        ]);
 
-        $response->assertStatus(200);
+
+        $response->assertJsonStructure(["id", "mount", "created_at", "updated_at"])
+            ->asserJson(["mount" => 123.6])
+            ->asserStatus(201);
+
+        $this->assertDatabaseHas("transations", ["mount" => 123.6]);
     }
 }
