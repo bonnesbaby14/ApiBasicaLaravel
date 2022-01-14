@@ -15,6 +15,8 @@ class CreateTransactionsTable extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
+            $table->decimal('mount',10,2);
+            $table->boolean("isEgress");
             $table->timestamps();
         });
     }
