@@ -54,4 +54,14 @@ class TransactionControllerTest extends TestCase
             ->assertJson(["id" => $transaction->id])
             ->assertStatus(200);
     }
+    public function test_show_not_found()
+    {
+        // $this->withoutExceptionHandling();
+
+        $response = $this->json("GET", "/api/transactions/1000");
+
+        $response->assertStatus(404);
+    }
+    
+
 }
