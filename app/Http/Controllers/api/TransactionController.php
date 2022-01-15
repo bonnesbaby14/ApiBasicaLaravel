@@ -9,6 +9,14 @@ use App\Http\Requests\Transaction as TransactionRequest;
 
 class TransactionController extends Controller
 {
+
+    protected $transaction;
+
+    public function __construct(Transaction $transaction)
+    {
+        $this->transaction=$transaction;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +24,7 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Transaction::paginate());
     }
 
     /**

@@ -5,7 +5,7 @@ namespace Tests\Feature\api;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use App\Models\api\Transaction;
-
+use Psy\CodeCleaner\FunctionContextPass;
 use Tests\TestCase;
 
 
@@ -95,5 +95,20 @@ class TransactionControllerTest extends TestCase
         $response->assertSee(null)
             ->assertStatus(204);
         $this->assertDatabaseMissing("transactions", ["id" => $transaction->id]);
+    }
+
+    public function test_index(){
+
+        $this->withoutExceptionHandling();
+        Transaction::factory()->count(10)->create();
+        $response=$this->json("GET","/api/transactions");
+
+        $response->assertJsonStructure([
+            "data"=>[
+                "*"=>["id","mount","isEgress","created_at","updated_at"]
+            ]
+        ])
+        ->assertStatus(200);
+
     }
 }
