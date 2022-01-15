@@ -82,6 +82,18 @@ class TransactionControllerTest extends TestCase
                 "mount" => 3333.33
             ])
             ->assertStatus(201);
-  
+    }
+
+    public function test_delete()
+    {
+
+        // $this->withoutExceptionHandling();
+        $transaction = Transaction::factory()->create();
+
+        $response = $this->json("DELETE", "/api/transactions/$transaction->id");
+
+        $response->assertSee(null)
+            ->assertStatus(204);
+        $this->assertDatabaseMissing("transactions", ["id" => $transaction->id]);
     }
 }
