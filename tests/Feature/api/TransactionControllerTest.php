@@ -19,7 +19,10 @@ class TransactionControllerTest extends TestCase
      */
     public function test_store()
     {
-        $this->withoutExceptionHandling();
+        //  $this->withoutExceptionHandling();
+
+
+
         $response = $this->json("POST", "/api/transactions", [
             "mount" => 123.6,
             "isEgress" => true,
@@ -44,7 +47,7 @@ class TransactionControllerTest extends TestCase
 
     public function test_show()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
 
         $transaction = Transaction::factory()->create();
 
@@ -62,6 +65,23 @@ class TransactionControllerTest extends TestCase
 
         $response->assertStatus(404);
     }
-    
 
+
+    public function test_update()
+    {
+
+        $this->withoutExceptionHandling();
+        $transaction = Transaction::factory()->create();
+
+        $response = $this->json("PUT", "/api/transactions/$transaction->id", [
+            "mount" => 3333.33
+        ]);
+
+        $response->assertJsonStructure(["id", "mount", "isEgress", "created_at", "updated_at"])
+            ->assertJson([
+                "mount" => 3333.33
+            ])
+            ->assertStatus(201);
+  
+    }
 }
