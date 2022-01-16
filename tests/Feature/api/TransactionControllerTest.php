@@ -106,7 +106,7 @@ class TransactionControllerTest extends TestCase
 
         $response->assertJsonStructure([
             "data" => [
-                "*" => ["id", "mount", "isEgress", "created_at", "updated_at"]
+                "*" => ["id", "Precio", "Egreso", "Creado"]
             ]
         ])
             ->assertStatus(200);

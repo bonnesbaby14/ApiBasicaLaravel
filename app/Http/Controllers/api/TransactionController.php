@@ -6,8 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\api\Transaction;
 use Illuminate\Http\Request;
 use App\Http\Requests\Transaction as TransactionRequest;
+use App\Http\Resources\TransactionCollection;
 use App\Http\Resources\TransactionResource;
-use App\Http\Resources\TrasactionResource;
+
 
 class TransactionController extends Controller
 {
@@ -26,7 +27,7 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        return response()->json(Transaction::paginate());
+        return new TransactionCollection(Transaction::latest()->get());
     }
 
     /**
