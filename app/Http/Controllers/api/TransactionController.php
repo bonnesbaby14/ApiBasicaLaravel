@@ -36,6 +36,7 @@ class TransactionController extends Controller
     public function store(TransactionRequest $request)
     {
         $transaction=Transaction::create($request->all());
+
         return response()->json($transaction,201);
     }
 
@@ -59,7 +60,10 @@ class TransactionController extends Controller
      */
     public function update(TransactionRequest $request, Transaction $transaction)
     {
+
+        
         $transaction->update($request->all());
+
         return response()->json($transaction,201);
     }
 
