@@ -47,14 +47,14 @@ class TransactionControllerTest extends TestCase
 
     public function test_show()
     {
-        // $this->withoutExceptionHandling();
+        $this->withoutExceptionHandling();
 
         $transaction = Transaction::factory()->create();
 
         $response = $this->json("GET", "/api/transactions/$transaction->id");
 
-        $response->assertJsonStructure(["id", "mount", "isEgress", "created_at", "updated_at"])
-            ->assertJson(["id" => $transaction->id])
+        $response->assertJsonStructure(["data"=>["id", "Precio", "Egreso", "Creado"]])
+            // ->assertJson(["id" => $transaction->id])
             ->assertStatus(200);
     }
     public function test_show_not_found()
@@ -97,18 +97,18 @@ class TransactionControllerTest extends TestCase
         $this->assertDatabaseMissing("transactions", ["id" => $transaction->id]);
     }
 
-    public function test_index(){
+    public function test_index()
+    {
 
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
         Transaction::factory()->count(10)->create();
-        $response=$this->json("GET","/api/transactions");
+        $response = $this->json("GET", "/api/transactions");
 
         $response->assertJsonStructure([
-            "data"=>[
-                "*"=>["id","mount","isEgress","created_at","updated_at"]
+            "data" => [
+                "*" => ["id", "mount", "isEgress", "created_at", "updated_at"]
             ]
         ])
-        ->assertStatus(200);
-
+            ->assertStatus(200);
     }
 }
